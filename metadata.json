@@ -1,0 +1,6 @@
+{
+  "name": "ParkGrid — Smart Parking Reservation System",
+  "description": "Full-stack MERN parking reservation and QR access platform with real-time slot availability, Cashfree payment verification, and four role-based operational dashboards.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
