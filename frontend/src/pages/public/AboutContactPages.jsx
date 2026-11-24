@@ -60,6 +60,22 @@ export function AboutPage() {
           </p>
         </Panel>
 
+{/* Development */}
+        <Panel className="p-6 ">
+          <h2 className="font-display text-lg font-semibold text-slate-900">
+            Development & Learning
+          </h2>
+
+          <p className="mt-2 text-sm leading-relaxed text-slate-600">
+            ParkGrid was developed as a practical project during the
+            MERN Stack Development training program at Universal
+            Informatics, Bhawarkua, Indore. The development process
+            provided practical experience in full-stack development,
+            API integration, database management, authentication,
+            payment integration, and real-time communication.
+          </p>
+        </Panel>
+
 {/* Key Features */}
 <Panel className="p-6">
   <h2 className="font-display text-lg font-semibold text-slate-900">
@@ -102,21 +118,8 @@ export function AboutPage() {
         
        
 
-        {/* Development */}
-        <Panel className="p-6 ">
-          <h2 className="font-display text-lg font-semibold text-slate-900">
-            Development & Learning
-          </h2>
-
-          <p className="mt-2 text-sm leading-relaxed text-slate-600">
-            ParkGrid was developed as a practical project during the
-            MERN Stack Development training program at Universal
-            Informatics, Bhawarkua, Indore. The development process
-            provided practical experience in full-stack development,
-            API integration, database management, authentication,
-            payment integration, and real-time communication.
-          </p>
-        </Panel>
+        
+        
       </div>
 
       {/* Developer & Mentor Section */}
