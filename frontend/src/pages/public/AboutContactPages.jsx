@@ -7,49 +7,221 @@ import { toast } from 'sonner';
 import { api, getApiErrorMessage } from '../../services/api.js';
 import { Button, Input, Label, Panel, Textarea } from '../../components/ui/primitives.jsx';
 
+{/* <img src="/assets/images/jay.jpeg" */}
+
+
+
+
 export function AboutPage() {
   return (
-    <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 space-y-10">
+    <div className="mx-auto max-w-5xl space-y-10 px-4 py-14 sm:px-6 lg:px-8">
+
+      {/* Project Introduction */}
       <div className="max-w-3xl">
-        <p className="text-sm font-medium text-emerald-700">About ParkGrid</p>
+        <p className="text-sm font-medium text-emerald-700">
+          About Our Project
+        </p>
+
         <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-slate-900 text-balance">
-          Predictable parking infrastructure built on real-time state and cryptographic access.
+          ParkGrid – A Smart Parking Reservation and Management System.
         </h1>
+
         <p className="mt-4 text-base leading-relaxed text-slate-600">
-          Urban drivers waste thousands of hours circling garages without reliable occupancy
-          data, while facility operators lose revenue to unverified paper tickets and gate
-          bottlenecks. ParkGrid unifies slot discovery, verified Cashfree payments, and
-          instant QR verification into one MERN platform.
+          ParkGrid is a full-stack web application designed to simplify
+          parking reservations and management. The platform allows drivers
+          to discover parking locations, check real-time slot availability,
+          reserve parking spaces, and make secure online payments.
+          It also provides dedicated dashboards for parking attendants
+          and administrators to efficiently manage parking operations.
+        </p>
+
+        <p className="mt-4 text-base leading-relaxed text-slate-600">
+          This project was developed as part of the MERN Stack Development
+          course at Universal Informatics, Bhawarkua, Indore, under the
+          guidance and supervision of our mentor, Mr. Arpit Gaveshinde Sir.
         </p>
       </div>
 
+      {/* Project Information Cards */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+
+        {/* Objective */}
         <Panel className="p-6">
           <h2 className="font-display text-lg font-semibold text-slate-900">
-            Zero-Trust Gate Verification
+            Project Objective
           </h2>
+
           <p className="mt-2 text-sm leading-relaxed text-slate-600">
-            Every QR pass encodes a unique 256-bit random token issued strictly by the server
-            after payment verification. Gate attendants scan directly from browser cameras and
-            rely on server-side atomic checks to prevent duplicate entry, duplicate exit, or
-            expired ticket reuse.
+            The primary objective of ParkGrid is to reduce the time and
+            effort involved in finding parking spaces. It provides a
+            centralized platform for parking discovery, online reservations,
+            digital payments, and QR-based entry and exit verification,
+            making parking operations more convenient and organized.
           </p>
         </Panel>
 
-        <Panel className="p-6">
+{/* Key Features */}
+<Panel className="p-6">
+  <h2 className="font-display text-lg font-semibold text-slate-900">
+    Key Features
+  </h2>
+
+  <ul className="mt-3 space-y-2 text-sm leading-relaxed text-slate-600 list-disc pl-5">
+    <li>Four role-based dashboards (Driver, Attendant, Lot Admin, Super Admin).</li>
+    <li>Parking lot discovery with location-based search.</li>
+    <li>Real-time parking slot availability.</li>
+    <li>Online parking reservations and Cashfree payment integration.</li>
+    <li>QR-based entry and exit verification.</li>
+    <li>Real-time updates using Socket.IO.</li>
+    <li>Parking lot, floor, and slot management.</li>
+    <li>Booking history and parking management reports.</li>
+    <li>Secure authentication and role-based access control.</li>
+  </ul>
+</Panel>
+
+{/* Technology Stack */}
+<Panel className="p-6">
+  <h2 className="font-display text-lg font-semibold text-slate-900">
+    Technology Stack
+  </h2>
+
+  <ul className="mt-3 space-y-2 text-sm leading-relaxed text-slate-600 list-disc pl-5">
+    <li><strong>Frontend:</strong> React.js, Redux Toolkit, Tailwind CSS</li>
+    <li><strong>Backend:</strong> Node.js, Express.js</li>
+    <li><strong>Database:</strong> MongoDB, Mongoose</li>
+    <li><strong>Authentication:</strong> JWT, Role-Based Access Control</li>
+    <li><strong>Real-Time Communication:</strong> Socket.IO</li>
+    <li><strong>Payment Gateway:</strong> Cashfree</li>
+    <li><strong>QR Code:</strong> QR Code Generation and Verification</li>
+    <li><strong>API Communication:</strong> REST APIs, Axios</li>
+    <li><strong>Deployment:</strong> Render</li>
+  </ul>
+</Panel>
+
+
+        
+       
+
+        {/* Development */}
+        <Panel className="p-6 ">
           <h2 className="font-display text-lg font-semibold text-slate-900">
-            Four Dedicated Role Workspaces
+            Development & Learning
           </h2>
+
           <p className="mt-2 text-sm leading-relaxed text-slate-600">
-            Drivers search, reserve, and download QR passes. Attendants verify gates in real
-            time. Lot Admins configure bays, rates, attendants, and export revenue reports.
-            Super Admins oversee platform compliance, user access, and global policy rules.
+            ParkGrid was developed as a practical project during the
+            MERN Stack Development training program at Universal
+            Informatics, Bhawarkua, Indore. The development process
+            provided practical experience in full-stack development,
+            API integration, database management, authentication,
+            payment integration, and real-time communication.
           </p>
         </Panel>
       </div>
+
+      {/* Developer & Mentor Section */}
+      <section className="rounded-2xl border border-emerald-100 bg-emerald-50/50 p-8 sm:p-10">
+
+        <div className="text-center">
+          <p className="text-sm font-medium text-emerald-700">
+            Project Credits
+          </p>
+
+          <h2 className="mt-2 font-display text-2xl font-bold text-slate-900">
+            Meet the People Behind ParkGrid
+          </h2>
+
+          <p className="mt-2 text-sm text-slate-600">
+            Designed and developed as part of the MERN Stack Development course.
+          </p>
+        </div>
+
+        <div className="mt-10 grid grid-cols-1 gap-12 sm:grid-cols-2">
+
+          {/* Project Developer */}
+          <div className="flex flex-col items-center text-center">
+
+            <div className="h-36 w-36 overflow-hidden rounded-full border-4 border-white shadow-lg">
+              <img
+                src="/assets/images/jay.jpeg"
+                alt="Jayprakash - Project Developer"
+                className="h-full w-full object-cover"
+              />
+            </div>
+
+            <h3 className="mt-5 font-display text-xl font-bold text-slate-900">
+              Jayprakash
+            </h3>
+
+            <p className="mt-1 text-sm font-semibold text-emerald-700">
+              Project Developer
+            </p>
+
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-slate-600">
+              Responsible for designing and developing ParkGrid,
+              implementing frontend and backend functionality,
+              database integration, and application features.
+            </p>
+
+          </div>
+
+          {/* Project Mentor */}
+          <div className="flex flex-col items-center text-center">
+
+            <div className="h-36 w-36 overflow-hidden rounded-full border-4 border-white shadow-lg">
+              <img
+                src="/assets/images/sir.jpg"
+                alt="Mr. Arpit Gaveshinde - Project Mentor"
+                className="h-full w-full object-cover"
+              />
+            </div>
+
+            <h3 className="mt-5 font-display text-xl font-bold text-slate-900">
+              Mr. Arpit Gaveshinde
+            </h3>
+
+            <p className="mt-1 text-sm font-semibold text-emerald-700">
+              Project Guide & Mentor
+            </p>
+
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-slate-600">
+              Provided technical guidance, mentorship, and supervision
+              throughout the project development process.
+            </p>
+
+          </div>
+
+        </div>
+
+        {/* Institute Details */}
+        <div className="mt-12 border-t border-emerald-200 pt-7 text-center">
+
+          <h3 className="font-display text-lg font-bold text-slate-900">
+            Universal Informatics
+          </h3>
+
+          <p className="mt-1 text-sm text-slate-600">
+            Bhawarkua, Indore, Madhya Pradesh
+          </p>
+
+          <p className="mt-3 text-sm font-medium text-emerald-700">
+            MERN Stack Development Course
+          </p>
+
+          <p className="mt-5 text-xs text-slate-500">
+            © {new Date().getFullYear()} ParkGrid. Developed as an academic
+            and practical learning project.
+          </p>
+
+        </div>
+
+      </section>
+
     </div>
   );
 }
+
+
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Please enter your name'),
