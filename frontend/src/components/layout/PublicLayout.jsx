@@ -29,7 +29,7 @@ export function PublicLayout() {
             <a href="/" className="inline-flex items-center">
               <img
                 src={LOGO}
-                alt="Company Name"
+                alt="Parkgrid"
                 className="h-10 w-auto"
               />
             </a>

@@ -45,6 +45,7 @@ import {
 
 // Super Admin Pages
 import {
+  ContactMessagesPage,
   ManageAllLocationsPage,
   ManageUsersPage,
   SuperAdminDashboardPage,
@@ -158,6 +159,10 @@ export default function App() {
           <Route path="locations" element={<ManageAllLocationsPage />} />
           <Route path="analytics" element={<SuperAdminDashboardPage />} />
           <Route path="settings" element={<SystemSettingsPage />} />
+          <Route
+            path="contact-messages"
+            element={<ContactMessagesPage />}
+          />
         </Route>
 
         {/* Fallback */}

@@ -6,9 +6,11 @@ import {
   createLotAdmin,
   getAnalytics,
   getAttendants,
+  getContactMessages,
   getSettings,
   getUsers,
   submitContactMessage,
+  updateContactMessageStatus,
   updateSettings,
   updateUserStatusOrRole,
 } from '../controllers/adminController.js';
@@ -54,3 +56,21 @@ const contactSchema = z.object({
   message: z.string().min(10, 'Message must be at least 10 characters'),
 });
 contactRouter.post('/', validateBody(contactSchema), submitContactMessage);
+
+
+
+// Super Admin: View all messages
+contactRouter.get(
+  '/',
+  authenticate,
+  authorize(ROLES.SUPER_ADMIN),
+  getContactMessages
+);
+
+// Super Admin: Update message status
+contactRouter.patch(
+  '/:id/status',
+  authenticate,
+  authorize(ROLES.SUPER_ADMIN),
+  updateContactMessageStatus
+);

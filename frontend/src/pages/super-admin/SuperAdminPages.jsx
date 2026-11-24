@@ -18,6 +18,14 @@ import {
 } from '../../components/charts/AnalyticsCharts.jsx';
 import { formatCurrency, getRoleLabel } from '../../lib/utils.js';
 
+import {
+  Mail,
+  Eye,
+  CheckCircle2,
+  MessageSquare,
+} from 'lucide-react';
+
+
 export function SuperAdminDashboardPage() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -592,6 +600,349 @@ export function SystemSettingsPage() {
           </Button>
         </form>
       </Panel>
+    </div>
+  );
+}
+
+
+
+export function ContactMessagesPage() {
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('ALL');
+  const [selectedMessage, setSelectedMessage] = useState(null);
+
+  const loadMessages = async () => {
+    setLoading(true);
+
+    try {
+      const res = await api.get('/contact');
+
+      const fetchedMessages =
+        res.data.data?.messages || res.data.messages || [];
+
+      setMessages(fetchedMessages);
+    } catch (err) {
+      toast.error(getApiErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadMessages();
+  }, []);
+
+  const handleStatusChange = async (id, status) => {
+    try {
+      const res = await api.patch(`/contact/${id}/status`, { status });
+
+      const updatedMessage = res.data.data;
+
+      setMessages((prev) =>
+        prev.map((message) =>
+          message._id === id ? updatedMessage : message
+        )
+      );
+
+      if (selectedMessage?._id === id) {
+        setSelectedMessage(updatedMessage);
+      }
+
+      toast.success(
+        `Message marked as ${status === 'REVIEWED' ? 'reviewed' : 'new'}.`
+      );
+    } catch (err) {
+      toast.error(getApiErrorMessage(err));
+    }
+  };
+
+  // Message Statistics
+  const counts = {
+    total: messages.length,
+    new: messages.filter((m) => m.status === 'NEW').length,
+    reviewed: messages.filter((m) => m.status === 'REVIEWED').length,
+  };
+
+  // Search and Status Filtering
+  const filteredMessages = messages.filter((message) => {
+    const matchesSearch = [
+      message.name,
+      message.email,
+      message.subject,
+    ].some((value) =>
+      value?.toLowerCase().includes(search.toLowerCase())
+    );
+
+    const matchesStatus =
+      statusFilter === 'ALL' || message.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  // Status Badge Styling
+  const getStatusStyle = (status) => {
+    const styles = {
+      NEW: 'bg-blue-50 text-blue-700 ring-blue-200',
+      REVIEWED: 'bg-emerald-50 text-emerald-700 ring-emerald-200',
+    };
+
+    return styles[status] || 'bg-slate-100 text-slate-600';
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900">
+          Contact Messages
+        </h1>
+
+        <p className="mt-1 text-sm text-slate-600">
+          Manage customer inquiries and messages received through the platform.
+        </p>
+      </div>
+
+      {/* Statistics */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {[
+          {
+            label: 'Total Messages',
+            value: counts.total,
+            icon: MessageSquare,
+            color: 'text-slate-700',
+          },
+          {
+            label: 'New Messages',
+            value: counts.new,
+            icon: Mail,
+            color: 'text-blue-600',
+          },
+          {
+            label: 'Reviewed Messages',
+            value: counts.reviewed,
+            icon: CheckCircle2,
+            color: 'text-emerald-600',
+          },
+        ].map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <Panel key={item.label} className="p-5">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-medium text-slate-500">
+                  {item.label}
+                </p>
+
+                <Icon className={`h-5 w-5 ${item.color}`} />
+              </div>
+
+              <p className="mt-3 font-mono text-2xl font-bold text-slate-900">
+                {item.value}
+              </p>
+            </Panel>
+          );
+        })}
+      </div>
+
+      {/* Search and Filters */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="relative w-full sm:max-w-sm">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search name, email or subject..."
+            className="pl-9"
+          />
+        </div>
+
+        <div className="flex flex-wrap gap-1 rounded-lg bg-slate-200/70 p-1">
+          {['ALL', 'NEW', 'REVIEWED'].map((status) => (
+            <button
+              key={status}
+              type="button"
+              onClick={() => setStatusFilter(status)}
+              className={`cursor-pointer rounded-md px-3 py-2 text-xs font-medium ${
+                statusFilter === status
+                  ? 'bg-white text-slate-900 shadow-xs'
+                  : 'text-slate-600'
+              }`}
+            >
+              {status === 'ALL' ? 'All' : status}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Messages Table */}
+      {loading ? (
+        <Skeleton className="h-64" />
+      ) : (
+        <Panel className="overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="border-b border-slate-200 bg-slate-50 text-xs font-medium text-slate-500">
+                <tr>
+                  <th className="px-4 py-3">Sender</th>
+                  <th className="px-4 py-3">Subject</th>
+                  <th className="px-4 py-3">Date</th>
+                  <th className="px-4 py-3">Status</th>
+                  <th className="px-4 py-3 text-right">Action</th>
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-slate-200">
+                {filteredMessages.map((message) => (
+                  <tr
+                    key={message._id}
+                    className="transition-colors hover:bg-slate-50"
+                  >
+                    <td className="px-4 py-3">
+                      <p className="font-medium text-slate-900">
+                        {message.name}
+                      </p>
+
+                      <p className="text-xs text-slate-500">
+                        {message.email}
+                      </p>
+                    </td>
+
+                    <td className="px-4 py-3 font-medium text-slate-700">
+                      {message.subject}
+                    </td>
+
+                    <td className="px-4 py-3 text-xs text-slate-500">
+                      {new Date(message.createdAt).toLocaleDateString(
+                        'en-IN',
+                        {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric',
+                        }
+                      )}
+                    </td>
+
+                    <td className="px-4 py-3">
+                      <span
+                        className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ring-1 ${getStatusStyle(
+                          message.status
+                        )}`}
+                      >
+                        {message.status}
+                      </span>
+                    </td>
+
+                    <td className="px-4 py-3 text-right">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setSelectedMessage(message)}
+                      >
+                        <Eye className="mr-1 h-4 w-4" />
+                        View
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+
+                {filteredMessages.length === 0 && (
+                  <tr>
+                    <td
+                      colSpan={5}
+                      className="px-4 py-12 text-center text-sm text-slate-500"
+                    >
+                      <Mail className="mx-auto mb-3 h-8 w-8 text-slate-300" />
+
+                      {messages.length === 0
+                        ? 'No contact messages received yet.'
+                        : 'No messages match your search.'}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </Panel>
+      )}
+
+      {/* Message Details Dialog */}
+      <Dialog
+        open={Boolean(selectedMessage)}
+        onClose={() => setSelectedMessage(null)}
+        title="Contact Message Details"
+        description="View and manage the customer's inquiry."
+      >
+        {selectedMessage && (
+          <div className="space-y-5">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="text-xs text-slate-500">Sender Name</p>
+                <p className="mt-1 text-sm font-semibold text-slate-900">
+                  {selectedMessage.name}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs text-slate-500">Email Address</p>
+                <a
+                  href={`mailto:${selectedMessage.email}`}
+                  className="mt-1 block break-all text-sm font-medium text-emerald-700"
+                >
+                  {selectedMessage.email}
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs text-slate-500">Subject</p>
+              <p className="mt-1 text-sm font-semibold text-slate-900">
+                {selectedMessage.subject}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-xs text-slate-500">Message</p>
+
+              <div className="mt-2 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                <p className="whitespace-pre-wrap text-sm leading-6 text-slate-700">
+                  {selectedMessage.message}
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs text-slate-500">Received On</p>
+              <p className="mt-1 text-sm text-slate-700">
+                {new Date(selectedMessage.createdAt).toLocaleString('en-IN')}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap justify-end gap-2 border-t border-slate-200 pt-4">
+              {selectedMessage.status === 'NEW' && (
+                <Button
+                  variant="emerald"
+                  onClick={() =>
+                    handleStatusChange(selectedMessage._id, 'REVIEWED')
+                  }
+                >
+                  <CheckCircle2 className="mr-1 h-4 w-4" />
+                  Mark as Reviewed
+                </Button>
+              )}
+
+              <Button
+                variant="outline"
+                onClick={() => setSelectedMessage(null)}
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        )}
+      </Dialog>
     </div>
   );
 }

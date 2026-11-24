@@ -2,6 +2,7 @@ import { User } from '../models/User.js';
 import { ParkingLot } from '../models/ParkingLot.js';
 import { SystemSetting } from '../models/SystemSetting.js';
 import { ContactMessage } from '../models/ContactMessage.js';
+// import { ContactMessage } from '../models/ContactMessage.js';
 import { ApiError, asyncHandler } from '../utils/ApiError.js';
 import { ROLES, USER_STATUS } from '../utils/constants.js';
 import {
@@ -252,5 +253,41 @@ export const submitContactMessage = asyncHandler(async (req, res) => {
     success: true,
     message: 'Your inquiry has been received. Our operations team will respond shortly.',
     data: { contact: saved },
+  });
+});
+
+
+
+
+
+export const getContactMessages = asyncHandler(async (req, res) => {
+  const messages = await ContactMessage.find().sort({ createdAt: -1 });
+
+  res.status(200).json({
+    success: true,
+    data: { messages },
+  });
+});
+
+export const updateContactMessageStatus = asyncHandler(async (req, res) => {
+  const { status } = req.body;
+
+  if (!['NEW', 'REVIEWED'].includes(status)) {
+    throw new ApiError(400, 'Invalid message status');
+  }
+
+  const message = await ContactMessage.findByIdAndUpdate(
+    req.params.id,
+    { status },
+    { new: true, runValidators: true }
+  );
+
+  if (!message) {
+    throw new ApiError(404, 'Contact message not found');
+  }
+
+  res.status(200).json({
+    success: true,
+    data: message,
   });
 });

@@ -12,6 +12,7 @@ import {
   HomeIcon,
   LayoutDashboard,
   LogOut,
+  Mail,
   MapPin,
   Menu,
   QrCode,
@@ -31,6 +32,8 @@ import {
 import { upsertBookingRealtime } from '../../store/slices/bookingSlice.js';
 import { getSocket, joinRoleChannel } from '../../services/socket.js';
 import { getRoleLabel } from '../../lib/utils.js';
+
+const LOGO = '/assets/images/logo.png'
 
 const ROLE_NAV = {
   DRIVER: [
@@ -62,6 +65,7 @@ const ROLE_NAV = {
     { label: 'Manage Lot Admins', to: '/super-admin/lot-admins', icon: ShieldCheck },
     { label: 'Parking Locations', to: '/super-admin/locations', icon: Building2 },
     { label: 'System Analytics', to: '/super-admin/analytics', icon: BarChart3 },
+   { label: 'Contact Messages', to: '/super-admin/contact-messages', icon: Mail },
     { label: 'Settings', to: '/super-admin/settings', icon: Settings },
   ],
 };
@@ -135,9 +139,7 @@ export function DashboardLayout() {
       {/* Brand */}
       <div className="flex h-[76px] py-10 items-center justify-between border-b border-white/10 px-6">
         <Link to="/" className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center bg-[#24734c]">
-            <MapPin className="h-5 w-5 text-white" />
-          </div>
+          <img src={LOGO} alt="logo" className='h-10 w-auto' />
 
           <div>
             <p className="font-display text-xl font-bold tracking-tight text-white">
@@ -189,7 +191,7 @@ export function DashboardLayout() {
       </div>
 
       {/* Navigation */}
-      <div className="flex-1 overflow-y-auto px-3 py-6">
+      <div className="flex-1 overflow-y-auto px-3 py-6 scrollbar-hide">
         <p className="mb-3 px-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
           Navigation
         </p>
@@ -219,8 +221,8 @@ export function DashboardLayout() {
 
                     <Icon
                       className={`h-[18px] w-[18px] shrink-0 ${isActive
-                          ? 'text-white'
-                          : 'text-white/45 group-hover:text-white'
+                        ? 'text-white'
+                        : 'text-white/45 group-hover:text-white'
                         }`}
                     />
 
