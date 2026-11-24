@@ -54,6 +54,8 @@ const DEMO_ACCOUNTS = [
   },
 ];
 
+const logo = '/assets/images/logo.png';
+
 // import parkGridGif from './public/assets/images/parkgrid-login.gif';
 
 export function LoginPage() {
@@ -100,61 +102,67 @@ export function LoginPage() {
   return (
     <div className="mx-auto max-w-lg px-4 py-12 sm:px-6">
       {/* <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start"> */}
-        <Panel className="p-6 sm:p-8 lg:col-span-6">
-          <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900">
-            Sign in to ParkGrid
-          </h1>
-          <p className="mt-1.5 text-sm text-slate-600">
-            Access your Driver, Attendant, Lot Admin, or Super Admin dashboard.
-          </p>
+      <Panel className="p-6 sm:p-8 lg:col-span-6">
+        <div className="mb-7 flex justify-center">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full border-2  border-[#24734c]/30 bg-[#24734c]/5">
+            
+            <img src={logo} alt="ParkGrid Logo" className="h-14 w-14 object-contain" />
+          </div>
+        </div>
+        <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900">
+          Sign in to ParkGrid
+        </h1>
+        <p className="mt-1.5 text-sm text-slate-600">
+          Access your Driver, Attendant, Lot Admin, or Super Admin dashboard.
+        </p>
 
-          {error && (
-            <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              {error}
-            </div>
-          )}
+        {error && (
+          <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </div>
+        )}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="login-email">Email Address</Label>
-              <Input
-                id="login-email"
-                type="email"
-                placeholder="driver@parkgrid.app"
-                {...register('email')}
-              />
-              {errors.email && (
-                <p className="text-xs text-red-600">{errors.email.message}</p>
-              )}
-            </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="login-email">Email Address</Label>
+            <Input
+              id="login-email"
+              type="email"
+              placeholder="driver@parkgrid.app"
+              {...register('email')}
+            />
+            {errors.email && (
+              <p className="text-xs text-red-600">{errors.email.message}</p>
+            )}
+          </div>
 
-            <div className="space-y-1.5">
-              <Label htmlFor="login-password">Password</Label>
-              <Input
-                id="login-password"
-                type="password"
-                placeholder="Enter your password"
-                {...register('password')}
-              />
-              {errors.password && (
-                <p className="text-xs text-red-600">{errors.password.message}</p>
-              )}
-            </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="login-password">Password</Label>
+            <Input
+              id="login-password"
+              type="password"
+              placeholder="Enter your password"
+              {...register('password')}
+            />
+            {errors.password && (
+              <p className="text-xs text-red-600">{errors.password.message}</p>
+            )}
+          </div>
 
-            <Button type="submit" variant="emerald" className="w-full" disabled={loading}>
-              {loading ? 'Signing in...' : 'Sign In'}
-            </Button>
-          </form>
+          <Button type="submit" variant="emerald" className="w-full" disabled={loading}>
+            {loading ? 'Signing in...' : 'Sign In'}
+          </Button>
+        </form>
 
-          <p className="mt-6 text-center text-sm text-slate-600">
-            New to ParkGrid?{' '}
-            <Link to="/register" className="font-medium text-emerald-700 hover:underline">
-              Create an account
-            </Link>
-          </p>
-        </Panel>
+        <p className="mt-6 text-center text-sm text-slate-600">
+          New to ParkGrid?{' '}
+          <Link to="/register" className="font-medium text-emerald-700 hover:underline">
+            Create an account
+          </Link>
+        </p>
+      </Panel>
 
-        {/* <Panel className="p-6 sm:p-8 lg:col-span-6">
+      {/* <Panel className="p-6 sm:p-8 lg:col-span-6">
           <h2 className="font-display text-lg font-semibold text-slate-900">
             Quick Demo Role Access
           </h2>
@@ -191,7 +199,7 @@ export function LoginPage() {
       {/* </div> */}
     </div>
   );
-}  
+}
 
 export function RegisterPage() {
   const dispatch = useDispatch();
@@ -234,6 +242,12 @@ export function RegisterPage() {
   return (
     <div className="mx-auto max-w-lg px-4 py-12 sm:px-6">
       <Panel className="p-6 sm:p-8">
+        <div className="mb-7 flex justify-center">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full border-2  border-[#24734c]/30 bg-[#24734c]/5">
+            
+            <img src={logo} alt="ParkGrid Logo" className="h-14 w-14 object-contain" />
+          </div>
+        </div>
         <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900">
           Create your ParkGrid account
         </h1>
